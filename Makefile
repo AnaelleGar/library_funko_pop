@@ -79,7 +79,7 @@ dmg: vendor  ## Doctrine migration generate
 	$(SYMFONY) d:m:g --no-interaction
 
 db: vendor ## Drop database + Create database
-	$(SYMFONY) doctrine:database:drop --if-exists --force -n
+	$(SYMFONY) doctrine:database:drop
 	$(SYMFONY) doctrine:database:create
 
 dbm: db dmm cc ## Drop database + Create databse + Doctrine migration migrate + Clean cache
