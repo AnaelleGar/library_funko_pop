@@ -5,6 +5,7 @@ namespace App\Entity;
 use App\Repository\AdminRepository;
 use Doctrine\ORM\Mapping as ORM;
 
+use Exception;
 use Knp\DoctrineBehaviors\Contract\Entity\TimestampableInterface;
 use Knp\DoctrineBehaviors\Model\Timestampable\TimestampableTrait;
 use Symfony\Bridge\Doctrine\Types\UuidType;
@@ -50,9 +51,12 @@ class Admin implements UserInterface, PasswordAuthenticatedUserInterface, Timest
     private Uuid $resetPasswordToken;
 
     /**
-
-    @throws \Exception*/
-    public function __construct(){$this->resetPasswordToken = Uuid::v7();}
+     * @throws Exception
+     */
+    public function __construct()
+    {
+        $this->resetPasswordToken = Uuid::v7();
+    }
 
     /**
      * @return bool
