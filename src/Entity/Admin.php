@@ -13,7 +13,9 @@ use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Uid\Uuid;
 
-
+/**
+ * Class Admin
+ */
 #[ORM\Entity(repositoryClass: AdminRepository::class)]
 class Admin implements UserInterface, PasswordAuthenticatedUserInterface, TimestampableInterface
 {
@@ -50,6 +52,9 @@ class Admin implements UserInterface, PasswordAuthenticatedUserInterface, Timest
     #[ORM\CustomIdGenerator(class: 'doctrine.uuid_generator')]
     private Uuid $resetPasswordToken;
 
+    /**
+     * @throws Exception
+     */
     public function __construct()
     {
         $this->resetPasswordToken = Uuid::v7();
@@ -119,16 +124,27 @@ class Admin implements UserInterface, PasswordAuthenticatedUserInterface, Timest
         $this->lastLogin = $lastLogin;
     }
 
+    /**
+     * @return int|null
+     */
     public function getId(): ?int
     {
         return $this->id;
     }
 
+    /**
+     * @return string|null
+     */
     public function getEmail(): ?string
     {
         return $this->email;
     }
 
+    /**
+     * @param string $email
+     *
+     * @return $this
+     */
     public function setEmail(string $email): static
     {
         $this->email = $email;
@@ -140,6 +156,8 @@ class Admin implements UserInterface, PasswordAuthenticatedUserInterface, Timest
      * A visual identifier that represents this user.
      *
      * @see UserInterface
+     *
+     * @return string
      */
     public function getUserIdentifier(): string
     {
@@ -148,6 +166,8 @@ class Admin implements UserInterface, PasswordAuthenticatedUserInterface, Timest
 
     /**
      * @see UserInterface
+     *
+     * @return array|string[]
      */
     public function getRoles(): array
     {
@@ -158,6 +178,11 @@ class Admin implements UserInterface, PasswordAuthenticatedUserInterface, Timest
         return array_unique($roles);
     }
 
+    /**
+     * @param array $roles
+     *
+     * @return $this
+     */
     public function setRoles(array $roles): static
     {
         $this->roles = $roles;
@@ -167,12 +192,19 @@ class Admin implements UserInterface, PasswordAuthenticatedUserInterface, Timest
 
     /**
      * @see PasswordAuthenticatedUserInterface
+     *
+     * @return string
      */
     public function getPassword(): string
     {
         return $this->password;
     }
 
+    /**
+     * @param string $password
+     *
+     * @return $this
+     */
     public function setPassword(string $password): static
     {
         $this->password = $password;
