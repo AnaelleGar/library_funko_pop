@@ -50,9 +50,6 @@ class Admin implements UserInterface, PasswordAuthenticatedUserInterface, Timest
     #[ORM\CustomIdGenerator(class: 'doctrine.uuid_generator')]
     private Uuid $resetPasswordToken;
 
-    /**
-     * @throws Exception
-     */
     public function __construct()
     {
         $this->resetPasswordToken = Uuid::v7();

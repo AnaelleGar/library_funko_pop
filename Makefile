@@ -95,8 +95,8 @@ ISO: vendor ## Import ISO DATA
 new: kill build up initfile update ## First installation of the project
 
 initfile: .env ## Manage .env file
-	cp commit-msg.dist .git/hooks/commit-msg
-	cp pre-commit.dist .git/hooks/pre-commit
+	copy commit-msg.dist .git/hooks/commit-msg
+	copy pre-commit.dist .git/hooks/pre-commit
 	chmod ug+x .git/hooks/commit-msg
 	chmod ug+x .git/hooks/pre-commit
 
