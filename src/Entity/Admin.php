@@ -15,6 +15,18 @@ class Admin implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column]
     private ?int $id = null;
 
+    #[ORM\Column]
+    private bool $isSuperAdministrator = false;
+
+    #[ORM\Column(length: 255)]
+    private string $firstName;
+
+    #[ORM\Column(length: 255)]
+    private string $lastName;
+
+    #[ORM\Column(nullable: true)]
+    private ?\DateTime $lastLogin;
+
     #[ORM\Column(length: 180, unique: true)]
     private ?string $email = null;
 
@@ -26,6 +38,70 @@ class Admin implements UserInterface, PasswordAuthenticatedUserInterface
      */
     #[ORM\Column]
     private ?string $password = null;
+
+    /**
+     * @return bool
+     */
+    public function isSuperAdministrator(): bool
+    {
+        return $this->isSuperAdministrator;
+    }
+
+    /**
+     * @param bool $isSuperAdministrator
+     */
+    public function setIsSuperAdministrator(bool $isSuperAdministrator): void
+    {
+        $this->isSuperAdministrator = $isSuperAdministrator;
+    }
+
+    /**
+     * @return string
+     */
+    public function getFirstName(): string
+    {
+        return $this->firstName;
+    }
+
+    /**
+     * @param string $firstName
+     */
+    public function setFirstName(string $firstName): void
+    {
+        $this->firstName = $firstName;
+    }
+
+    /**
+     * @return string
+     */
+    public function getLastName(): string
+    {
+        return $this->lastName;
+    }
+
+    /**
+     * @param string $lastName
+     */
+    public function setLastName(string $lastName): void
+    {
+        $this->lastName = $lastName;
+    }
+
+    /**
+     * @return \DateTime|null
+     */
+    public function getLastLogin(): ?\DateTime
+    {
+        return $this->lastLogin;
+    }
+
+    /**
+     * @param \DateTime|null $lastLogin
+     */
+    public function setLastLogin(?\DateTime $lastLogin): void
+    {
+        $this->lastLogin = $lastLogin;
+    }
 
     public function getId(): ?int
     {
