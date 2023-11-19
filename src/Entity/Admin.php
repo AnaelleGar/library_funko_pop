@@ -2,9 +2,9 @@
 
 namespace App\Entity;
 
+use App\Entity\Traits\IdTrait;
 use App\Repository\AdminRepository;
 use Doctrine\ORM\Mapping as ORM;
-
 use Exception;
 use Knp\DoctrineBehaviors\Contract\Entity\TimestampableInterface;
 use Knp\DoctrineBehaviors\Model\Timestampable\TimestampableTrait;
@@ -19,24 +19,20 @@ use Symfony\Component\Uid\Uuid;
 #[ORM\Entity(repositoryClass: AdminRepository::class)]
 class Admin implements UserInterface, PasswordAuthenticatedUserInterface, TimestampableInterface
 {
+    use IdTrait;
     use TimestampableTrait;
-
-    #[ORM\Id]
-    #[ORM\GeneratedValue]
-    #[ORM\Column]
-    private ?int $id = null;
 
     #[ORM\Column]
     private bool $isSuperAdministrator = false;
+
+    #[ORM\Column(length: 180, unique: true)]
+    private ?string $email = null;
 
     #[ORM\Column(length: 255)]
     private string $firstName;
 
     #[ORM\Column(length: 255)]
     private string $lastName;
-
-    #[ORM\Column(length: 180, unique: true)]
-    private ?string $email = null;
 
     #[ORM\Column(nullable: true)]
     private ?\DateTime $lastLogin;
@@ -61,75 +57,23 @@ class Admin implements UserInterface, PasswordAuthenticatedUserInterface, Timest
     }
 
     /**
-     * @return bool
+     * @return bool|null
      */
-    public function isSuperAdministrator(): bool
+    public function isIsSuperAdministrator(): ?bool
     {
         return $this->isSuperAdministrator;
     }
 
     /**
      * @param bool $isSuperAdministrator
+     *
+     * @return $this
      */
-    public function setIsSuperAdministrator(bool $isSuperAdministrator): void
+    public function setIsSuperAdministrator(bool $isSuperAdministrator): static
     {
         $this->isSuperAdministrator = $isSuperAdministrator;
-    }
 
-    /**
-     * @return string
-     */
-    public function getFirstName(): string
-    {
-        return $this->firstName;
-    }
-
-    /**
-     * @param string $firstName
-     */
-    public function setFirstName(string $firstName): void
-    {
-        $this->firstName = $firstName;
-    }
-
-    /**
-     * @return string
-     */
-    public function getLastName(): string
-    {
-        return $this->lastName;
-    }
-
-    /**
-     * @param string $lastName
-     */
-    public function setLastName(string $lastName): void
-    {
-        $this->lastName = $lastName;
-    }
-
-    /**
-     * @return \DateTime|null
-     */
-    public function getLastLogin(): ?\DateTime
-    {
-        return $this->lastLogin;
-    }
-
-    /**
-     * @param \DateTime|null $lastLogin
-     */
-    public function setLastLogin(?\DateTime $lastLogin): void
-    {
-        $this->lastLogin = $lastLogin;
-    }
-
-    /**
-     * @return int|null
-     */
-    public function getId(): ?int
-    {
-        return $this->id;
+        return $this;
     }
 
     /**
@@ -153,21 +97,89 @@ class Admin implements UserInterface, PasswordAuthenticatedUserInterface, Timest
     }
 
     /**
-     * A visual identifier that represents this user.
-     *
-     * @see UserInterface
-     *
-     * @return string
+     * @return string|null
      */
-    public function getUserIdentifier(): string
+    public function getFirstName(): ?string
     {
-        return (string) $this->email;
+        return $this->firstName;
     }
 
     /**
-     * @see UserInterface
+     * @param string $firstName
      *
-     * @return array|string[]
+     * @return $this
+     */
+    public function setFirstName(string $firstName): static
+    {
+        $this->firstName = $firstName;
+
+        return $this;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getLastName(): ?string
+    {
+        return $this->lastName;
+    }
+
+    /**
+     * @param string $lastName
+     *
+     * @return $this
+     */
+    public function setLastName(string $lastName): static
+    {
+        $this->lastName = $lastName;
+
+        return $this;
+    }
+
+    /**
+     * @return \DateTimeInterface|null
+     */
+    public function getLastLogin(): ?\DateTimeInterface
+    {
+        return $this->lastLogin;
+    }
+
+    /**
+     * @param \DateTimeInterface|null $lastLogin
+     *
+     * @return $this
+     */
+    public function setLastLogin(?\DateTimeInterface $lastLogin): static
+    {
+        $this->lastLogin = $lastLogin;
+
+        return $this;
+    }
+
+    /**
+     * @return Uuid|null
+     */
+    public function getResetPasswordToken(): ?Uuid
+    {
+        return $this->resetPasswordToken;
+    }
+
+    /**
+     * @param Uuid $resetPasswordToken
+     *
+     * @return $this
+     */
+    public function setResetPasswordToken(Uuid $resetPasswordToken): static
+    {
+        $this->resetPasswordToken = $resetPasswordToken;
+
+        return $this;
+    }
+
+    /**
+     * @return array
+     *
+     * @see UserInterface
      */
     public function getRoles(): array
     {
@@ -185,19 +197,24 @@ class Admin implements UserInterface, PasswordAuthenticatedUserInterface, Timest
      */
     public function setRoles(array $roles): static
     {
+        $roles = ['ROLE_ADMIN'];
+        if ($this->isIsSuperAdministrator()) {
+            $roles = array_merge($roles, ['ROLE_SUPER_ADMIN', 'ROLE_ALLOWED_TO_SWITCH']);
+        }
+
         $this->roles = $roles;
 
         return $this;
     }
 
     /**
-     * @see PasswordAuthenticatedUserInterface
-     *
      * @return string
+     *
+     * @see UserInterface
      */
     public function getPassword(): string
     {
-        return $this->password;
+        return (string) $this->password;
     }
 
     /**
@@ -213,11 +230,26 @@ class Admin implements UserInterface, PasswordAuthenticatedUserInterface, Timest
     }
 
     /**
-     * @see UserInterface
+     * @return void
      */
-    public function eraseCredentials(): void
+    public function eraseCredentials()
     {
-        // If you store any temporary, sensitive data on the user, clear it here
-        // $this->plainPassword = null;
+        // TODO: Implement eraseCredentials() method.
+    }
+
+    /**
+     * @return string
+     */
+    public function getUserIdentifier(): string
+    {
+        return (string) $this->email;
+    }
+
+    /**
+     * @return string
+     */
+    public function __toString(): string
+    {
+        return $this->getUserIdentifier();
     }
 }
