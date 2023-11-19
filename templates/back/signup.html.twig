@@ -1,0 +1,8 @@
+{% extends 'base.html.twig' %}
+{% block body %}
+    <h1>{{ 'signup'|trans({}, 'Signup') }}</h1>
+    {{ form_start(signupForm) }}
+    {{ form_rest(signupForm) }}
+    <button type="submit">{{ 'validate'|trans({}, 'Login') }}</button>
+    {{ form_end(signupForm) }}
+{% endblock %}

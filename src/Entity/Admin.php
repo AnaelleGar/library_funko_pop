@@ -157,18 +157,6 @@ class Admin implements UserInterface, PasswordAuthenticatedUserInterface, Timest
     }
 
     /**
-     * @param array $roles
-     *
-     * @return $this
-     */
-    public function setRoles(array $roles): static
-    {
-        $this->roles = $roles;
-
-        return $this;
-    }
-
-    /**
      * @return Uuid|null
      */
     public function getResetPasswordToken(): ?Uuid
@@ -189,11 +177,34 @@ class Admin implements UserInterface, PasswordAuthenticatedUserInterface, Timest
     }
 
     /**
-     * @return array|string[]
+     * @return array
+     *
+     * @see UserInterface
      */
     public function getRoles(): array
     {
-        // TODO: Implement getRoles() method.
+        $roles = $this->roles;
+        // guarantee every user at least has ROLE_USER
+        $roles[] = 'ROLE_USER';
+
+        return array_unique($roles);
+    }
+
+    /**
+     * @param array $roles
+     *
+     * @return $this
+     */
+    public function setRoles(array $roles): static
+    {
+        $roles = ['ROLE_ADMIN'];
+        if ($this->isIsSuperAdministrator()) {
+            $roles = array_merge($roles, ['ROLE_SUPER_ADMIN', 'ROLE_ALLOWED_TO_SWITCH']);
+        }
+
+        $this->roles = $roles;
+
+        return $this;
     }
 
     /**

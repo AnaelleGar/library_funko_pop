@@ -25,6 +25,9 @@ Encore
      */
     .addEntry('app', './assets/js/app.js')
 
+    //base
+    .addStyleEntry('app_nav', './assets/styles/nav.css')
+
     // enables the Symfony UX Stimulus bridge (used in assets/bootstrap.js)
     .enableStimulusBridge('./assets/controllers.json')
 
