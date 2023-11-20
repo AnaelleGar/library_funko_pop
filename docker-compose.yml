@@ -12,7 +12,7 @@ services:
     networks:
       - dev
     ports:
-      - "33306:3306"
+      - "33006:3306"
 
   rabbitmq:
     image: rabbitmq:3-management
