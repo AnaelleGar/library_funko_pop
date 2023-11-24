@@ -1,5 +1,14 @@
-controllers:
-    resource:
-        path: ../src/Controller/
-        namespace: App\Controller
+app:
+    resource: ../src/Controller/**/*
+    exclude:
+        - ../src/Controller/Back
     type: attribute
+
+admin:
+    name_prefix: 'back_'
+    prefix: '/admin'
+    type: attribute
+    trailing_slash_on_root: false
+    resource:
+        path: '../src/Controller/Back'
+        namespace: App\Controller\Back

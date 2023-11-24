@@ -1,4 +1,3 @@
-# Setup —————————————————————————————————————————————————————————————————————————
 DOCKER_COMPOSE = docker compose
 EXEC_PHP = $(DOCKER_COMPOSE) exec -T $(OPT_EXEC_USER) php-fpm
 EXEC_YARN  = yarn

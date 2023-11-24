@@ -1,7 +1,15 @@
-<div>
-    <div><i class="fa-solid fa-bars"></i></div>
-    <div>
-        <img src="{{ asset('build/img/logo.png') }}"/>
-    </div>
-    <div><i class="fa-solid fa-user"></i></div>
-</div>
+{% if app.user is not null %}
+    <nav class="navbar">
+        <div><a href="#"><i class="fa-solid fa-bars"></i></a></div>
+        <div>
+            <img src="{{ asset('build/img/logo-min.png') }}" alt=""/>
+        </div>
+        <div><a href="#"><i class="fa-solid fa-user"></i></a></div>
+    </nav>
+{% else %}
+    <nav class="navbar nav-disconnected">
+        <div>
+            <img src="{{ asset('build/img/logo-min.png') }}" alt=""/>
+        </div>
+    </nav>
+{% endif %}
