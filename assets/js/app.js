@@ -7,3 +7,10 @@
 
 // any CSS you import will output into a single css file (app.css in this case)
 import '../styles/app.css';
+import 'bootstrap';
+import * as bootstrap from 'bootstrap';
+
+const $ = require('jquery');
+global.$ = global.jQuery = $;
+
+require('bootstrap');

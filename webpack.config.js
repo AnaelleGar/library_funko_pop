@@ -7,6 +7,9 @@ if (!Encore.isRuntimeEnvironmentConfigured()) {
 }
 
 Encore
+    // enables Sass/SCSS support
+    .enableSassLoader()
+
     .copyFiles([
         {from: './assets/images', to: 'img/[path][name].[ext]'}
     ])
@@ -24,9 +27,13 @@ Encore
      * and one CSS file (e.g. app.css) if your JavaScript imports CSS.
      */
     .addEntry('app', './assets/js/app.js')
+    .addStyleEntry('global', './assets/styles/global.scss')
 
     //base
     .addStyleEntry('app_nav', './assets/styles/nav.css')
+
+    //videotheque
+    .addEntry('category', './assets/js/category.js')
 
     // enables the Symfony UX Stimulus bridge (used in assets/bootstrap.js)
     .enableStimulusBridge('./assets/controllers.json')

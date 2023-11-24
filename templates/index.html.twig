@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1" charset="UTF-8">
+    <title>{% block title %}Welcome!{% endblock %}</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text></svg>">
+    {% block stylesheets %}
+        {{ encore_entry_link_tags('app') }}
+        {{ encore_entry_link_tags('global') }}
+        <link href="../assets/styles/output.css" rel="stylesheet">
+    {% endblock %}
+</head>
+<body>
+{% block body%}
+    <main class="container">
+        {% include 'menu.html.twig' %}
+        <h1 class="text-center">COUCOU</h1>
+        <!-- Button trigger modal -->
+        <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#exampleModal">
+            Ajouter une catégorie
+        </button>
+
+        <!-- Modal add-->
+        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    {{ form_start(form) }}
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="exampleModalLabel">Ajout d'une catégorie</h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        {{ form_widget(form.name) }}
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button class="btn btn-primary" type="submit">Save changes</button>
+                    </div>
+                    {{ form_end(form) }}
+                </div>
+            </div>
+        </div>
+
+        <div class="text-center row">
+            {% for category in categories %}
+                <div class="card col mx-2">
+                    <div class="card-body">
+                        <a class="text-decoration-none text-dark" href="{{ path('category_show', {'id': category.id}) }}">{{ category.name }}</a>
+                        <a class="text-primary" href="{{ path('category_edit', {'id': category.id}) }}"><i class="fa-solid fa-pen-to-square"></i></a>
+                        <a class="text-danger" href="{{ path('category_delete', {'id': category.id}) }}"><i class="fa-solid fa-trash"></i></a>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+
+        <h2 class="text-center pt-5">Coucou film</h2>
+        <a class="btn btn-success" href="{{ path('movie_add') }}">Ajouter un film</a>
+
+        {{ form_start(searchForm) }}
+            {{ form_widget(searchForm.search) }}
+            <label>Date :</label>
+            {{ form_widget(searchForm.searchDate) }}
+            <button type="submit"><i class="fa-solid fa-magnifying-glass"></i></button>
+        {{ form_end(searchForm) }}
+        <div class="row movie-category">
+            {% for movie in movies %}
+                <div class="col">
+                    <div class="card" style="width: 18rem;">
+                        <img src="{{ asset('uploads/movie/'~ movie.poster) }}" class="card-img-top" alt="...">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ movie.title }}</h5>
+                            <p>{{ movie.category.name }}</p>
+                            <a href="{{ path('movie_show', {'id': movie.id}) }}" class="btn btn-primary">Voir plus</a>
+                            <a class="text-danger" href="{{ path('movie_delete', {'id': movie.id}) }}"><i class="fa-solid fa-trash"></i></a>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </main>
+{% endblock %}
+</body>
+</html>
+{% block javascripts %}
+    {{ encore_entry_script_tags('app') }}
+    <script src="https://kit.fontawesome.com/de1d1a05bf.js" crossorigin="anonymous"></script>
+{% endblock %}

@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1" charset="UTF-8">
+    <title>{% block title %}Welcome!{% endblock %}</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text></svg>">
+    {% block stylesheets %}
+        {{ encore_entry_link_tags('app') }}
+        {{ encore_entry_link_tags('global') }}
+        <link href="../assets/styles/output.css" rel="stylesheet">
+    {% endblock %}
+</head>
+<body>
+{% block body%}
+    <main class="container">
+        {% include 'menu.html.twig' %}
+        <h1 class="text-center">COUCOU EDIT de film</h1>
+        {{ form_start(form) }}
+        <div class="modal-header">
+            <h1 class="modal-title fs-5" id="exampleModalLabel">Modifier un film</h1>
+        </div>
+        <div class="modal-body">
+            {{ form_widget(form.title) }}
+            {{ form_widget(form.description) }}
+            {{ form_widget(form.poster) }}
+            {{ form_widget(form.category) }}
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-primary" type="submit">Enregistrer</button>
+        </div>
+        {{ form_end(form) }}
+    </main>
+{% endblock %}
+</body>
+</html>
+{% block javascripts %}
+    {{ encore_entry_script_tags('app') }}
+    <script src="https://kit.fontawesome.com/de1d1a05bf.js" crossorigin="anonymous"></script>
+{% endblock %}
