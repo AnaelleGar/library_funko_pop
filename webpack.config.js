@@ -7,6 +7,8 @@ if (!Encore.isRuntimeEnvironmentConfigured()) {
 }
 
 Encore
+    .enableSassLoader()
+    
     .copyFiles([
         {from: './assets/images', to: 'img/[path][name].[ext]'}
     ])
@@ -24,6 +26,7 @@ Encore
      * and one CSS file (e.g. app.css) if your JavaScript imports CSS.
      */
     .addEntry('app', './assets/js/app.js')
+    .addStyleEntry('global', './assets/styles/global.scss')
 
     //base
     .addStyleEntry('app_nav', './assets/styles/nav.css')
